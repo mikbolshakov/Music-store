@@ -11,6 +11,7 @@ contract MusicStore {
     }
 
     struct Order {
+        uint orderId;
         string albumUid;
         address customer;
         uint orderAt;
@@ -24,8 +25,9 @@ contract MusicStore {
 
     address public owner;
     uint public currentIndex;
+    uint public currentOrderId;
 
-    event AlbumBought(string indexed uid, address indexed customer, uint indexed timestamp);
+    event AlbumBought(string indexed uid, string rawUid, address indexed customer, uint indexed timestamp);
     event OrderDelivered(string indexed albumUid, address indexed customer);
 
     modifier onlyOwner() {
@@ -63,13 +65,16 @@ contract MusicStore {
         albumToBuy.quantity--;
 
         orders.push(Order({
-        albumUid: albumToBuy.uid,
-        customer: msg.sender,
-        orderAt: block.timestamp,
-        status: OrderStatus.Paid
+            orderId: currentOrderId,
+            albumUid: albumToBuy.uid,
+            customer: msg.sender,
+            orderAt: block.timestamp,
+            status: OrderStatus.Paid
         }));
 
-        emit AlbumBought(albumToBuy.uid, msg.sender, block.timestamp);
+        currentOrderId++;
+
+        emit AlbumBought(albumToBuy.uid, albumToBuy.uid, msg.sender, block.timestamp);
     }
 
     function delivered(uint _index) external onlyOwner {

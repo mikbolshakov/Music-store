@@ -1,6 +1,6 @@
 import { expect } from "chai";
 import { ethers, deployments, getNamedAccounts } from "hardhat";
-import type { MusicStore } from "../typechain-types";
+import { MusicStore } from "../typechain-types";
 
 describe("MusicStore", function () {
   let deployer: string;
@@ -63,6 +63,7 @@ describe("MusicStore", function () {
       const order = await musicStoreAsUser.orders(0);
       // console.log(order);
       expect(order.albumUid).to.eq(album.uid);
+      expect(order.albumUid).to.eq(album.uid);
       expect(order.customer).to.eq(user);
       expect(order.status).to.eq(0);
 
@@ -73,10 +74,9 @@ describe("MusicStore", function () {
 
       await expect(tx)
         .to.emit(musicStoreAsUser, 'AlbumBought')
-        .withArgs(order.albumUid, user, ts);
+        .withArgs(order.albumUid, order.albumUid, user, ts);
     });
   });
 });
-
 
 
