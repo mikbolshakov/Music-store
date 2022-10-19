@@ -6,22 +6,32 @@ describe("MusicStore", function () {
   let deployer: string;
   let user: string;
   let musicStore: MusicStore;
+  let musicStoreAsUser: MusicStore;
+
+  async function addAlbum() {
+    const tx = await musicStore.addAlbum("test.123", "Demo Album", 100, 5);
+    await tx.wait();
+  }
+
   beforeEach(async function () {
     await deployments.fixture(["MusicStore"]);
 
     ({ deployer, user } = await getNamedAccounts());
     musicStore = await ethers.getContract<MusicStore>("MusicStore");
+
+    musicStoreAsUser = await ethers.getContract<MusicStore>("MusicStore", user);
   });
 
   it("Sets owner", async function () {
-    console.log(await musicStore.owner());
+    // console.log(await musicStore.owner());
     expect(await musicStore.owner()).to.eq(deployer);
   });
 
+
+
   describe("addAlbum()", function () {
     it("Allows owner to add album", async function () {
-      const tx = await musicStore.addAlbum("test.123", "Demo Album", 100, 5);
-      await tx.wait();
+      await addAlbum();
 
       const newAlbum = await musicStore.albums(0);
 
@@ -35,11 +45,29 @@ describe("MusicStore", function () {
     });
 
     it("Doesn't allow other users to add albums", async function () {
-      const musicStoreAsUser = await ethers
-        .getContract<MusicStore>("MusicStore", user);
-
       await expect(musicStoreAsUser.addAlbum("test.123", "Demo Album", 100, 5))
         .to.be.revertedWith("Not an owner!");
+    });
+  });
+
+  describe("buy()", function () {
+    it("Allows buy an album", async function () {
+      await addAlbum();
+
+      const tx = await musicStoreAsUser.buy(0, {value: 100});
+      await tx.wait();
+
+      const album = await musicStoreAsUser.albums(0);
+      expect(album.quantity).to.eq(4);
+
+      const order = await musicStoreAsUser.orders(0);
+      // console.log(order);
+      expect(order.albumUid).to.eq(album.uid);
+      expect(order.customer).to.eq(user);
+      expect(order.status).to.eq(0);
+
+      const ts = (await ethers.provider.getBlock(<number>tx.blockNumber)).timestamp;
+      expect(order.orderAt).to.eq(ts);
     });
   });
 });
