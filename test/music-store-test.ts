@@ -31,7 +31,15 @@ describe("MusicStore", function () {
       expect(newAlbum.quantity).to.eq(5);
       expect(newAlbum.index).to.eq(0);
 
-      expect(musicStore.currentIndex).to.eq(1);
+      expect(await musicStore.currentIndex()).to.eq(1);
+    });
+
+    it("Doesn't allow other users to add albums", async function () {
+      const musicStoreAsUser = await ethers
+        .getContract<MusicStore>("MusicStore", user);
+
+      await expect(musicStoreAsUser.addAlbum("test.123", "Demo Album", 100, 5))
+        .to.be.revertedWith("Not an owner!");
     });
   });
 });
