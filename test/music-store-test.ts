@@ -79,4 +79,4 @@ describe("MusicStore", function () {
   });
 });
 
-
+// npx typechain --out-dir front/src/typechain --target ethers-v5 "artifacts/contracts/**/*[!dbg].json"
