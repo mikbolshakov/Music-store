@@ -7,9 +7,7 @@ import "solidity-coverage";
 const config: HardhatUserConfig = {
   solidity: "0.8.17",
   namedAccounts: {
-    deplyer: {
-      default: 0
-    },
+    deployer: 0,
     user: 1
   }
 };

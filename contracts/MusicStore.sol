@@ -23,7 +23,7 @@ contract MusicStore {
     Order[] public orders;
 
     address public owner;
-    uint currentIndex;
+    uint public currentIndex;
 
     event AlbumBought(string indexed uid, address indexed customer, uint indexed timestamp);
     event OrderDelivered(string indexed albumUid, address indexed customer);
@@ -34,13 +34,14 @@ contract MusicStore {
     }
 
     constructor() {
-        owner == msg.sender;
+        owner = msg.sender;
     }
 
     function addAlbum(
         string calldata uid, 
         string calldata title, 
-        uint price, uint quantity
+        uint price, 
+        uint quantity
         ) external onlyOwner {
             albums.push(Album({
                 index: currentIndex,
