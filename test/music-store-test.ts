@@ -1,4 +1,4 @@
-import { expect } from "./chai-setup";
+import { expect } from "chai";
 import { ethers, deployments, getNamedAccounts } from "hardhat";
 import type { MusicStore } from "../typechain-types";
 
@@ -51,7 +51,7 @@ describe("MusicStore", function () {
   });
 
   describe("buy()", function () {
-    it("Allows buy an album", async function () {
+    it("Allows to buy an album", async function () {
       await addAlbum();
 
       const tx = await musicStoreAsUser.buy(0, {value: 100});
@@ -68,6 +68,15 @@ describe("MusicStore", function () {
 
       const ts = (await ethers.provider.getBlock(<number>tx.blockNumber)).timestamp;
       expect(order.orderAt).to.eq(ts);
+
+      await expect(tx).to.changeEtherBalance(musicStoreAsUser, 100);
+
+      await expect(tx)
+        .to.emit(musicStoreAsUser, 'AlbumBought')
+        .withArgs(order.albumUid, user, ts);
     });
   });
 });
+
+
+
