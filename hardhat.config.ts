@@ -11,6 +11,11 @@ const config: HardhatUserConfig = {
     deployer: 0,
     user: 1
   }
+  networks: {
+    hardhat: {
+      chainId: 1337
+    }
+  }
 };
 
 export default config;
