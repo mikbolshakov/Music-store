@@ -10,7 +10,7 @@ const config: HardhatUserConfig = {
   namedAccounts: {
     deployer: 0,
     user: 1
-  }
+  },
   networks: {
     hardhat: {
       chainId: 1337

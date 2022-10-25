@@ -1,9 +1,9 @@
-import React from 'react';
+import React from "react";
 
 type TransactionErrorMessageProps = {
   message: string;
   dismiss: React.MouseEventHandler<HTMLButtonElement>;
-}
+};
 
 const TransactionErrorMessage: React.FunctionComponent<TransactionErrorMessageProps> = 
 ({ message, dismiss }) => {
@@ -14,7 +14,7 @@ const TransactionErrorMessage: React.FunctionComponent<TransactionErrorMessagePr
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
-  )
-}
+  );
+};
 
-export default TransactionErrorMessageProps;
+export default TransactionErrorMessage;

@@ -1,16 +1,16 @@
-import React from 'react';
+import React from "react";
 
 type WaitingForTransactionMessageProps = {
-  tsHash: string;
+  txHash: string;
 };
 
 const WaitingForTransactionMessage: React.FunctionComponent<WaitingForTransactionMessageProps> = 
-({ tsHash }) => {
+  ({ txHash }) => {
   return (
     <div>
       Waiting for transaction <strong>{txHash}</strong>
     </div>
-  )
-}
+  );
+};
 
 export default WaitingForTransactionMessage;
