@@ -11,3 +11,8 @@ REPORT_GAS=true npx hardhat test
 npx hardhat node
 npx hardhat run scripts/deploy.ts
 ```
+After download files you need to take this:
+npm i
+npx hardhat node
+/front npm start
+connect your metamask to localhost and add/buy some albums
