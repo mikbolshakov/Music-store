@@ -1,11 +1,13 @@
-node_modules
-.env
-coverage
-coverage.json
-typechain
-typechain-types
+ethereum/node_modules
+ethereum/.env
+ethereum/coverage
+ethereum/coverage.json
+ethereum/typechain
+ethereum/typechain-types
 
 #Hardhat files
-cache
-artifacts
+ethereum/cache
+ethereum/artifacts
+
+frontend/node_modules
 
